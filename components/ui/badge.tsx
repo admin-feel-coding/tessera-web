@@ -3,13 +3,15 @@ import { cn } from "@/lib/utils";
 type BadgeVariant = "approve" | "decline" | "escalate" | "flag" | "ok" | "default";
 
 const variantClasses: Record<BadgeVariant, string> = {
-  approve: "bg-green-100 text-green-800 border-green-200",
-  decline: "bg-red-100 text-red-800 border-red-200",
-  escalate: "bg-amber-100 text-amber-800 border-amber-200",
-  flag: "bg-red-100 text-red-700 border-red-200",
-  ok: "bg-green-100 text-green-700 border-green-200",
-  default: "bg-gray-100 text-gray-700 border-gray-200",
+  approve: "bg-[var(--success-soft)] text-[var(--success)] border border-[var(--success)]/30",
+  decline: "bg-[var(--danger-soft)] text-[var(--danger)] border border-[var(--danger)]/30",
+  escalate: "bg-[var(--warning-soft)] text-[var(--warning)] border border-[var(--warning)]/30",
+  flag: "bg-[var(--danger-soft)] text-[var(--danger)] border border-[var(--danger)]/30",
+  ok: "bg-[var(--success-soft)] text-[var(--success)] border border-[var(--success)]/30",
+  default: "bg-[var(--surface-2)] text-[var(--muted)] border border-[var(--border-strong)]",
 };
+
+const decisionVariants: Set<BadgeVariant> = new Set(["approve", "decline", "escalate"]);
 
 export function Badge({
   children,
@@ -20,10 +22,14 @@ export function Badge({
   variant?: BadgeVariant;
   className?: string;
 }) {
+  const isDecision = decisionVariants.has(variant);
   return (
     <span
       className={cn(
-        "inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border",
+        "inline-flex items-center px-2 py-0.5 rounded-full",
+        isDecision
+          ? "text-[10px] font-mono font-semibold tracking-widest uppercase"
+          : "text-xs font-medium",
         variantClasses[variant],
         className
       )}

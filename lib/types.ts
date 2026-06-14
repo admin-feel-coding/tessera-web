@@ -1,4 +1,11 @@
 export type Decision = "APPROVE" | "DECLINE" | "ESCALATE";
+
+export type EscalationCategory =
+  | "CONFLICTING_SIGNALS"
+  | "INSUFFICIENT_GROUNDING"
+  | "LOW_CONFIDENCE"
+  | "NOVEL_PATTERN"
+  | "POLICY_REQUIRED";
 export type SourceType = "rule" | "case";
 
 export interface CitedSource {
@@ -23,10 +30,14 @@ export interface Verdict {
   cited_sources: CitedSource[];
   signals: Signals;
   escalation_reason: string | null;
+  escalation_category?: EscalationCategory | null;
   latency_ms: number;
   model: string;
   tool_calls: number;
   langfuse_trace_id: string;
+  input_tokens?: number;
+  output_tokens?: number;
+  cost_usd?: number;
 }
 
 export interface Transaction {
@@ -54,5 +65,29 @@ export interface ApiError {
     code: string;
     message: string;
     details: Record<string, unknown>;
+  };
+}
+
+export interface EvalDecisionMetrics {
+  expected: number;
+  correct: number;
+  precision?: number;
+  recall?: number;
+}
+
+export interface EvalSummary {
+  run_at: string;
+  metrics: {
+    total: number;
+    correct: number;
+    match_rate: number;
+    avg_latency_ms: number;
+    p95_latency_ms: number;
+    errors: number;
+    by_decision: Record<string, EvalDecisionMetrics>;
+    confusion_matrix?: Record<string, Record<string, number>>;
+    pass_at_1?: number;
+    pass_at_k?: number;
+    pass_k?: number;
   };
 }

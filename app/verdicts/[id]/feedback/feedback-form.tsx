@@ -21,6 +21,9 @@ const SIGNAL_LABELS: Record<(typeof SIGNAL_KEYS)[number], string> = {
   velocity_flag: "Velocity",
 };
 
+const INPUT_CLASS =
+  "w-full border border-[var(--border)] rounded-lg px-3 py-2 text-sm bg-[var(--surface-2)] text-[var(--foreground)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none transition-colors";
+
 interface Props {
   verdict: Verdict;
 }
@@ -44,7 +47,7 @@ export function FeedbackForm({ verdict }: Props) {
       {state && !state.ok && (
         <div
           role="alert"
-          className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-md px-4 py-3"
+          className="text-sm text-[var(--danger)] bg-[var(--danger-soft)] border border-[var(--danger)]/30 rounded-lg px-4 py-3"
         >
           {state.error}
         </div>
@@ -54,7 +57,7 @@ export function FeedbackForm({ verdict }: Props) {
       <div className="flex flex-col gap-2">
         <label
           htmlFor="corrected_decision"
-          className="text-sm font-medium text-neutral-700"
+          className="text-xs font-medium text-[var(--muted)]"
         >
           Decision
         </label>
@@ -62,7 +65,7 @@ export function FeedbackForm({ verdict }: Props) {
           id="corrected_decision"
           name="corrected_decision"
           defaultValue={verdict.decision}
-          className="border border-neutral-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-neutral-400"
+          className={INPUT_CLASS}
         >
           <option value="APPROVE">APPROVE</option>
           <option value="DECLINE">DECLINE</option>
@@ -74,9 +77,9 @@ export function FeedbackForm({ verdict }: Props) {
       <div className="flex flex-col gap-2">
         <label
           htmlFor="analyst_note"
-          className="text-sm font-medium text-neutral-700"
+          className="text-xs font-medium text-[var(--muted)]"
         >
-          Analyst note <span className="text-red-500">*</span>
+          Analyst note <span className="text-[var(--danger)]">*</span>
         </label>
         <textarea
           id="analyst_note"
@@ -84,13 +87,13 @@ export function FeedbackForm({ verdict }: Props) {
           rows={4}
           required
           placeholder="Why is this the correct decision? Cite a specific signal or precedent."
-          className="border border-neutral-200 rounded-md px-3 py-2 text-sm resize-y focus:outline-none focus:ring-2 focus:ring-neutral-400"
+          className={`${INPUT_CLASS} resize-y`}
         />
       </div>
 
       {/* Decisive signals */}
       <fieldset>
-        <legend className="text-sm font-medium text-neutral-700 mb-3">
+        <legend className="text-xs font-medium text-[var(--muted)] mb-3">
           Decisive signals
         </legend>
         <div className="flex flex-col gap-2">
@@ -101,9 +104,9 @@ export function FeedbackForm({ verdict }: Props) {
                 name="decisive_signals"
                 value={key}
                 defaultChecked={verdict.signals[key]}
-                className="rounded border-neutral-300 text-neutral-900 focus:ring-neutral-400"
+                className="rounded border-[var(--border)] accent-[var(--accent)]"
               />
-              <span className="text-sm text-neutral-700">
+              <span className="text-sm text-[var(--muted)]">
                 {SIGNAL_LABELS[key]}
               </span>
             </label>
@@ -116,13 +119,13 @@ export function FeedbackForm({ verdict }: Props) {
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium bg-neutral-900 text-white hover:bg-neutral-800 disabled:opacity-50 disabled:pointer-events-none transition-colors"
+          className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium bg-[var(--accent)] hover:bg-[var(--accent)]/90 text-white disabled:opacity-50 disabled:pointer-events-none transition-colors"
         >
           {pending ? "Submitting..." : "Submit feedback"}
         </button>
         <Link
           href={`/verdicts/${verdict.transaction_id}`}
-          className="text-sm text-neutral-500 hover:underline"
+          className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
         >
           Cancel
         </Link>

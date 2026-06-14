@@ -1,19 +1,60 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #080808;
+  --surface: #0e0e0e;
+  --surface-2: #131313;
+  --sidebar-bg: #0a0a0a;
+  --border: #1a1a1a;
+  --border-strong: #262626;
+  --foreground: #e6e6e6;
+  --muted: #8a8a8a;
+  --muted-strong: #b3b3b3;
+  --accent: #5865f2;
+  --accent-soft: rgba(88, 101, 242, 0.15);
+  --success: #10b981;
+  --success-soft: rgba(16, 185, 129, 0.15);
+  --warning: #f59e0b;
+  --warning-soft: rgba(245, 158, 11, 0.15);
+  --danger: #ef4444;
+  --danger-soft: rgba(239, 68, 68, 0.15);
+  --mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
+  --font-sans: var(--font-inter, ui-sans-serif, system-ui, sans-serif);
+
+  /* Radius scale */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 18px;
+
+  /* Typography tracking */
+  --tracking-display: -1.5px;
+  --tracking-headline: -0.5px;
+  --tracking-body: -0.1px;
+
+  /* Elevation */
+  --shadow-card: 0 1px 0 rgba(255,255,255,0.02) inset, 0 0 0 1px var(--border);
+  --shadow-card-hover: 0 1px 0 rgba(255,255,255,0.03) inset, 0 0 0 1px var(--border-strong);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--background); }
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle grain texture */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
 }

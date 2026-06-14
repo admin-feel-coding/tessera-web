@@ -2,6 +2,8 @@ import Link from "next/link";
 import { getVerdict } from "@/lib/api";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { FeedbackForm } from "./feedback-form";
+import { ArrowLeft } from "lucide-react";
+import { AppShell } from "@/components/app-shell";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -13,29 +15,34 @@ export default async function FeedbackPage({ params }: Props) {
 
   if (!verdict) {
     return (
-      <div>
-        <Link
-          href="/"
-          className="text-sm text-neutral-500 hover:underline mb-4 inline-block"
-        >
-          ← Queue
-        </Link>
-        <p className="text-gray-500">Verdict not found.</p>
-      </div>
+      <AppShell>
+        <div>
+          <Link
+            href="/queue"
+            className="inline-flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors mb-4"
+          >
+            <ArrowLeft size={14} />
+            Queue
+          </Link>
+          <p className="text-[var(--muted)]">Verdict not found.</p>
+        </div>
+      </AppShell>
     );
   }
 
   return (
+    <AppShell>
     <div className="flex flex-col gap-6 max-w-2xl">
       <div>
         <Link
           href={`/verdicts/${id}`}
-          className="text-sm text-neutral-500 hover:underline mb-3 inline-block"
+          className="inline-flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors mb-3"
         >
-          ← Verdict detail
+          <ArrowLeft size={14} />
+          Verdict detail
         </Link>
-        <h1 className="text-2xl font-semibold">Submit Feedback</h1>
-        <p className="text-sm text-neutral-500 mt-1">
+        <h1 className="text-2xl font-semibold text-[var(--foreground)]">Submit Feedback</h1>
+        <p className="text-sm text-[var(--muted)] mt-1">
           <code className="font-mono">{verdict.transaction_id}</code>
         </p>
       </div>
@@ -49,5 +56,6 @@ export default async function FeedbackPage({ params }: Props) {
         </CardContent>
       </Card>
     </div>
+    </AppShell>
   );
 }

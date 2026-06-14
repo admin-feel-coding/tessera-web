@@ -50,13 +50,15 @@ export async function submitFeedbackAction(
     original_verdict: originalVerdict,
   };
 
+  let result: { case_id?: string };
   try {
-    await sendFeedback(payload);
+    result = await sendFeedback(payload);
   } catch (e) {
     const message =
       e instanceof Error ? e.message : "Failed to submit feedback.";
     return { ok: false, error: message };
   }
 
-  redirect(`/verdicts/${verdictId}?feedback=submitted`);
+  const caseIdParam = result.case_id ? `&case_id=${result.case_id}` : "";
+  redirect(`/verdicts/${verdictId}?feedback=submitted${caseIdParam}`);
 }

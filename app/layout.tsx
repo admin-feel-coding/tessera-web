@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { Nav } from "@/components/nav";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
-  title: "Tessera — Fraud Analyst",
-  description: "AI-powered fraud review dashboard",
+  title: "Tessera — AI Fraud Analyst",
+  description: "AI agent that investigates suspicious transactions using 5 live data tools and returns a grounded, cited verdict in real time.",
 };
 
 export default function RootLayout({
@@ -13,11 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <Nav />
-        <main className="container mx-auto px-4 py-8">{children}</main>
-      </body>
+    <html lang="en" className={inter.variable}>
+      <body>{children}</body>
     </html>
   );
 }
